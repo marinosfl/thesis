@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { PubSuub } = require('apollo-server');
 
 const User = require('./models/User');
 
@@ -57,6 +57,14 @@ module.exports = {
     },
     users: () => {
       return users;
+    }
+  },
+  Mutation: {
+    createUser: async (root, args, ctx) => {
+      const newUser = await new User({
+        ...args.input
+      }).save();
+      return newUser;
     }
   }
 };
