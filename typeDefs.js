@@ -10,9 +10,20 @@ module.exports = gql`
     date: String
   }
 
+  type Action {
+    _id: ID
+    date: String
+    title: String
+    description: String
+    author: User
+    approved: Boolean
+  }
+
   type Query {
     user(_id: ID!): User
     users: [User!]
+    action(_id: ID!): Action
+    actions: [Action!]
   }
 
   input CreateUserInput {
@@ -22,7 +33,13 @@ module.exports = gql`
     password: String
   }
 
+  input CreateActionInput {
+    title: String
+    description: String
+  }
+
   type Mutation {
-    createUser(input: CreateUserInput!): User
+    createUser(user: CreateUserInput!): User
+    createAction(action: CreateActionInput): Action
   }
 `;
