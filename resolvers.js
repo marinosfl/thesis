@@ -82,22 +82,15 @@ const actions = [
 module.exports = {
   Query: {
     user: async (root, args, ctx) => {
-      const [user] = await users.filter(user => {
-        if (args._id === user._id) {
-          return user;
-        }
-      });
+      const user = await User.findById(args._id);
       return user;
     },
-    users: () => {
+    users: async (root, args, ctx) => {
+      const users = await User.find({});
       return users;
     },
     action: async (root, args, ctx) => {
-      const [action] = await actions.filter(action => {
-        if (args._id === action._id) {
-          return action;
-        }
-      });
+      const action = await Action.findById(args._id);
       return action;
     },
     actions: () => {
@@ -113,9 +106,11 @@ module.exports = {
     },
     createAction: async (root, args, ctx) => {
       const newAction = await new Action({
-        ...args.action
+        ...args.action,
+        author: '5cbe3e00ef90cf692d73c9cf'
       }).save();
-      return newAction;
+      const actionAdded = await User.populate(newAction, 'author');
+      return actionAdded;
     }
   }
 };
