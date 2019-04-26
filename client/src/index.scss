@@ -1,0 +1,44 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%; // 1rem = 10px, 10px/16px = 62.5%
+}
+
+body {
+  box-sizing: border-box;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+}
+
+// Variables
+:root {
+  // Colors
+  --color-primary: #4286f4;
+  --color-primary-dark: #4f6d9e;
+  --color-white: #fff;
+
+  // Fonts
+  --font-heading-big: 3rem;
+  --font-heading-medium: 2.6rem;
+  --font-heading-small: 2.2rem;
+  --font-text-big: 1.8rem;
+  --font-text-medium: 1.6rem;
+  --font-text-small: 1.4rem;
+}
+
+.container {
+  max-width: 128rem;
+  margin: 0 auto;
+}
+
+.section--title {
+  font-size: var(--font-heading-small);
+  text-align: center;
+  margin: 2rem 0;
+}
