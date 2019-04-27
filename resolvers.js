@@ -1,50 +1,7 @@
-const { PubSuub } = require('apollo-server');
+const { PubSub } = require('apollo-server');
 
 const User = require('./models/User');
 const Action = require('./models/Action');
-
-const users = [
-  {
-    _id: '1',
-    firstName: 'test',
-    lastName: 'user',
-    password: '1234',
-    email: 'test@test.com',
-    date: '13/2/1992'
-  },
-  {
-    _id: '2',
-    firstName: 'test',
-    lastName: 'user',
-    password: '1234',
-    email: 'test@test.com',
-    date: '13/2/1992'
-  },
-  {
-    _id: '3',
-    firstName: 'test',
-    lastName: 'user',
-    password: '1234',
-    email: 'test@test.com',
-    date: '13/2/1992'
-  },
-  {
-    _id: '4',
-    firstName: 'test',
-    lastName: 'user',
-    password: '1234',
-    email: 'test@test.com',
-    date: '13/2/1992'
-  },
-  {
-    _id: '5',
-    firstName: 'test',
-    lastName: 'user',
-    password: '1234',
-    email: 'test@test.com',
-    date: '13/2/1992'
-  }
-];
 
 const actions = [
   {
@@ -99,10 +56,23 @@ module.exports = {
   },
   Mutation: {
     createUser: async (root, args, ctx) => {
-      const newUser = await new User({
-        ...args.user
-      }).save();
-      return newUser;
+      try {
+        const user = await User.findOne({ email: args.user.email });
+
+        if (user) {
+          throw new Error('A user with this email already exists');
+        }
+
+        const newUser = await new User({
+          ...args.user
+        }).save();
+
+        // hidding the password from the return for security reasons
+        newUser.password = null;
+        return newUser;
+      } catch (err) {
+        throw err;
+      }
     },
     createAction: async (root, args, ctx) => {
       const newAction = await new Action({

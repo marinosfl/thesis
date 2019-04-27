@@ -13,7 +13,9 @@ mongoose
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {}
+  context: async ({ req }) => {
+    let currentUser = null;
+  }
 });
 
 server.listen().then(({ url }) => {
