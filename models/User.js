@@ -7,7 +7,12 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    // Preventing duplicate mails
+    validate: {
+      validator: async email =>
+        (await User.where({ email }).countDocuments()) === 0,
+      message: 'Email has been taken'
+    }
   },
   password: {
     type: String,
@@ -34,4 +39,6 @@ UserSchema.pre('save', async function(next) {
   }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+
+module.exports = User;

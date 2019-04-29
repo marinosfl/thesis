@@ -1,7 +1,9 @@
 const { PubSub } = require('apollo-server');
+const Joi = require('@hapi/joi');
 
 const User = require('./models/User');
 const Action = require('./models/Action');
+const userValidation = require('./validation/user');
 
 const actions = [
   {
@@ -57,11 +59,10 @@ module.exports = {
   Mutation: {
     createUser: async (root, args, ctx) => {
       try {
-        const user = await User.findOne({ email: args.user.email });
-
-        if (user) {
-          throw new Error('A user with this email already exists');
-        }
+        // validating fields with
+        await Joi.validate(args.createUser, userValidation, {
+          abortEarly: false
+        });
 
         const newUser = await new User({
           ...args.user

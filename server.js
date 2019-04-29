@@ -6,7 +6,10 @@ const typeDefs = require('./typeDefs');
 const resolvers = require('./resolvers');
 
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true })
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  })
   .then(() => console.log('DB connected'))
   .catch(err => console.log(err));
 

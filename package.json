@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^15.0.0",
     "apollo-server": "^2.4.8",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^7.0.0",
     "graphql": "^14.2.1",
     "mongoose": "^5.5.2"
