@@ -8,6 +8,13 @@ const User = require('./models/User');
 const Action = require('./models/Action');
 const userValidation = require('./validation/user');
 
+const authenticated = next => (root, args, ctx, info) => {
+  if (!ctx.currentUser) {
+    throw new AuthenticationError('You must be logged in');
+  }
+  return next(root, args, ctx, info);
+};
+
 module.exports = {
   Query: {
     user: async (root, args, ctx) => {
@@ -66,13 +73,13 @@ module.exports = {
         throw err;
       }
     },
-    createAction: async (root, args, ctx) => {
+    createAction: authenticated(async (root, args, ctx) => {
       const newAction = await new Action({
         ...args.action,
         author: '5cbe3e00ef90cf692d73c9cf'
       }).save();
       const actionAdded = await User.populate(newAction, 'author');
       return actionAdded;
-    }
+    })
   }
 };
