@@ -1,42 +1,12 @@
 const { PubSub } = require('apollo-server');
 const Joi = require('@hapi/joi');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const User = require('./models/User');
 const Action = require('./models/Action');
 const userValidation = require('./validation/user');
-
-const actions = [
-  {
-    _id: '1',
-    date: '29/2/20',
-    title: 'Action title',
-    description: 'Lorem ipsum dolor sit.',
-    author: {
-      _id: '5',
-      firstName: 'test',
-      lastName: 'user',
-      password: '1234',
-      email: 'test@test.com',
-      date: '13/2/1992'
-    },
-    approved: false
-  },
-  {
-    _id: '2',
-    date: '11/5/15',
-    title: 'second title',
-    description: 'Lorem ipsum dolor sit.',
-    author: {
-      _id: '1',
-      firstName: 'asda',
-      lastName: 'user',
-      password: '1234',
-      email: 'test@test.com',
-      date: '13/2/1992'
-    },
-    approved: true
-  }
-];
 
 module.exports = {
   Query: {
@@ -52,15 +22,36 @@ module.exports = {
       const action = await Action.findById(args._id);
       return action;
     },
-    actions: () => {
+    actions: async (root, args, ctx) => {
+      console.log(ctx.currentUser);
+      const actions = await Action.find({});
       return actions;
+    },
+    login: async (root, { email, password }, ctx) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new Error('User does not exist!');
+      }
+
+      const isEqual = await bcrypt.compare(password, user.password);
+      if (!isEqual) {
+        throw new Error('Password is incorrect');
+      }
+
+      const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      return { userId: user.id, token, tokenExpiration: 1 };
     }
   },
   Mutation: {
-    createUser: async (root, args, ctx) => {
+    register: async (root, args, ctx) => {
       try {
         // validating fields with
-        await Joi.validate(args.createUser, userValidation, {
+        await Joi.validate(args.register, userValidation, {
           abortEarly: false
         });
 

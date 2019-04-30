@@ -19,16 +19,21 @@ module.exports = gql`
     approved: Boolean
   }
 
+  type AuthData {
+    userId: ID!
+    token: String!
+    tokenExpiration: Int!
+  }
+
   type Query {
     user(_id: ID!): User
     users: [User!]
     action(_id: ID!): Action
     actions: [Action!]
+    login(email: String!, password: String!): AuthData
   }
 
-  input CreateUserInput {
-    firstName: String
-    lastName: String
+  input RegisterInputz {
     email: String
     password: String
   }
@@ -39,7 +44,7 @@ module.exports = gql`
   }
 
   type Mutation {
-    createUser(user: CreateUserInput!): User
+    register(user: RegisterInputz!): User
     createAction(action: CreateActionInput): Action
   }
 `;

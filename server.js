@@ -1,9 +1,13 @@
 const { ApolloServer } = require('apollo-server');
 const mongoose = require('mongoose');
 require('dotenv').config();
+// const jwt = require('jsonwebtoken');
 
 const typeDefs = require('./typeDefs');
 const resolvers = require('./resolvers');
+const isAuth = require('./middleware/isAuth');
+
+// const User = require('./models/User');
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -17,7 +21,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    let currentUser = null;
+    return isAuth(req);
   }
 });
 
