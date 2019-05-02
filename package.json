@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -17,5 +19,8 @@
     "graphql": "^14.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.2"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }

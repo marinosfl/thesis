@@ -1,6 +1,6 @@
 export const CREATE_USER_MUTATION = `
   mutation($email: String!, $password: String!) {
-    createUser(user: {
+    register(user: {
       email: $email,
       password: $password
      

@@ -20,9 +20,9 @@ module.exports = gql`
   }
 
   type AuthData {
-    userId: ID!
     token: String!
     tokenExpiration: Int!
+    currentUser: User!
   }
 
   type Query {
@@ -31,9 +31,10 @@ module.exports = gql`
     action(_id: ID!): Action
     actions: [Action!]
     login(email: String!, password: String!): AuthData
+    me: User
   }
 
-  input RegisterInputz {
+  input RegisterInput {
     email: String
     password: String
   }
@@ -44,7 +45,7 @@ module.exports = gql`
   }
 
   type Mutation {
-    register(user: RegisterInputz!): User
+    register(user: RegisterInput!): User
     createAction(action: CreateActionInput): Action
   }
 `;

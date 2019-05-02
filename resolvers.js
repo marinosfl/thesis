@@ -17,6 +17,7 @@ const authenticated = next => (root, args, ctx, info) => {
 
 module.exports = {
   Query: {
+    me: authenticated((root, args, ctx) => ctx.currentUser),
     user: async (root, args, ctx) => {
       const user = await User.findById(args._id);
       return user;
@@ -51,7 +52,12 @@ module.exports = {
         { expiresIn: '1h' }
       );
 
-      return { userId: user.id, token, tokenExpiration: 1 };
+      return {
+        userId: user.id,
+        token,
+        tokenExpiration: 1,
+        currentUser: user
+      };
     }
   },
   Mutation: {

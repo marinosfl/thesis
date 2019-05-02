@@ -7,7 +7,6 @@ module.exports = async req => {
   let currentUser = null;
   let token = null;
   let decodedToken = null;
-
   try {
     token = req.headers.authorization;
     if (!token) {

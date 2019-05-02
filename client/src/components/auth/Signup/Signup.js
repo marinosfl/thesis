@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { GraphQLClient } from 'graphql-request';
 
-import { BASE_URL } from '../../client';
-import { CREATE_USER_MUTATION } from '../../graphql/mutations';
+import { BASE_URL } from '../../../client';
+import { CREATE_USER_MUTATION } from '../../../graphql/mutations';
 
 import classNames from 'classnames';
-import './Signup.scss';
+import '../Form.scss';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -27,14 +27,13 @@ export default function Signup() {
 
     // Validating password and password2 are the same
     if (password === password2 && email) {
-      const user = setUser({ email, password });
+      setUser({ email, password });
     }
     const client = new GraphQLClient(BASE_URL, {});
     const user = await client.request(CREATE_USER_MUTATION, {
       email,
       password
     });
-    console.log(user);
   };
 
   return (

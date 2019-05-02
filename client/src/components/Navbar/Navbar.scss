@@ -2,12 +2,18 @@
   display: flex;
   justify-content: space-between;
 
+  &__menu {
+    display: flex;
+    align-items: center;
+  }
+
   &__menu-item {
     text-decoration: none;
     color: var(--color-white);
     font-size: var(--font-text-medium);
     font-weight: bold;
     padding: 0 2rem;
+    cursor: pointer;
   }
 
   &__signup {

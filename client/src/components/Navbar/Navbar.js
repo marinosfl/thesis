@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import { NavLink } from 'react-router-dom';
+import Context from '../../context';
 
 import './Navbar.scss';
 
 export default function Navbar() {
-  const [isLogged, setIsLogged] = useState(false);
+  const { state, dispatch } = useContext(Context);
 
   return (
     <nav className="navbar container">
@@ -22,7 +23,7 @@ export default function Navbar() {
       </div>
 
       <div className="navbar__menu">
-        {!isLogged ? (
+        {!state.currentUser ? (
           <>
             <NavLink to="/signup" className="navbar__menu-item navbar__signup">
               Εγγραφή
@@ -32,9 +33,19 @@ export default function Navbar() {
             </NavLink>
           </>
         ) : (
-          <NavLink to="/" className="navbar__menu-item">
-            Προφίλ
-          </NavLink>
+          <>
+            <NavLink to="/" className="navbar__menu-item">
+              Προφίλ
+            </NavLink>
+            <div
+              className="navbar__menu-item"
+              onClick={() => {
+                dispatch({ type: 'LOGOUT_USER', payload: null });
+              }}
+            >
+              Αποσύνδεση
+            </div>
+          </>
         )}
       </div>
     </nav>
