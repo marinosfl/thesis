@@ -11,6 +11,12 @@ export default function reducer(state, { type, payload }) {
         ...state,
         currentUser: payload
       };
+    case 'UPDATE_PROFILE':
+      console.log('reducer', payload);
+      return {
+        ...state,
+        currentUser: payload
+      };
     default:
       return state;
   }

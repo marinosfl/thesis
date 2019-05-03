@@ -39,6 +39,12 @@ module.exports = gql`
     password: String
   }
 
+  input UpdateProfileInput {
+    firstName: String
+    lastName: String
+    email: String
+  }
+
   input CreateActionInput {
     title: String
     description: String
@@ -46,6 +52,7 @@ module.exports = gql`
 
   type Mutation {
     register(user: RegisterInput!): User
+    updateProfile(profileData: UpdateProfileInput!): User
     createAction(action: CreateActionInput): Action
   }
 `;

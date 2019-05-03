@@ -84,6 +84,15 @@ module.exports = {
         throw err;
       }
     },
+    updateProfile: authenticated(async (root, args, ctx) => {
+      const { firstName, lastName, email } = args.profileData;
+      const updatedProfile = await User.findOneAndUpdate(
+        { _id: ctx.currentUser._id },
+        { $set: { firstName, lastName, email } },
+        { new: true }
+      );
+      return updatedProfile;
+    }),
     createAction: authenticated(async (root, args, ctx) => {
       const newAction = await new Action({
         ...args.action,

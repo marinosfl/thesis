@@ -2,32 +2,37 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import Context from '../../../context';
 import classNames from 'classnames';
+import { GraphQLClient } from 'graphql-request';
+
+import { BASE_URL } from '../../../client';
+import { UPDATE_PROFILE_MUTATION } from '../../../graphql/mutations';
 
 import '../Form.scss';
 import './Profile.scss';
 
+const initialState = {
+  email: '',
+  firstName: '',
+  lastName: ''
+};
+
 export default function Profile() {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   // const { currentUser } = state;
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (state.currentUser) {
       setIsLoading(false);
       const { currentUser } = state;
-      // Initializing password and password2 as empty strings
-      currentUser.password = '';
-      currentUser.password2 = '';
+      initialState.email = currentUser.email;
+      initialState.firstName = currentUser.firstName
+        ? currentUser.firstName
+        : '';
+      initialState.lastName = currentUser.lastName ? currentUser.lastName : '';
 
-      // Eliminatin error that occurs when input is null
-      for (let value in currentUser) {
-        if (!currentUser[value]) {
-          currentUser[value] = '';
-        }
-      }
-
-      setForm(currentUser);
+      setForm(initialState);
     }
   }, [state.currentUser]);
 
@@ -38,7 +43,23 @@ export default function Profile() {
     });
   };
 
-  const handleSubmit = event => {};
+  const handleSubmit = async event => {
+    event.preventDefault();
+    dispatch({ type: 'UPDATE_PROFILE', payload: form });
+
+    try {
+      const client = new GraphQLClient(BASE_URL, {
+        headers: { authorization: localStorage.getItem('token') }
+      });
+      const updated = await client.request(UPDATE_PROFILE_MUTATION, {
+        email: form.email,
+        firstName: form.firstName,
+        lastName: form.lastName
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="container">
@@ -81,48 +102,7 @@ export default function Profile() {
               value={form.lastName}
             />
           </div>
-          <div className="form__input--wrapper">
-            <label htmlFor="password">Κωδικός</label>
-            <input
-              type="password"
-              className="form__input"
-              id="password"
-              name="password"
-              onChange={handleChange}
-              value={form.password}
-            />
-            {/* <span
-            className={classNames(
-              {
-                block: isError
-              },
-              'error'
-            )}
-          >
-            Οι κωδικοί δεν ταιριάζουν
-          </span> */}
-          </div>
-          <div className="form__input--wrapper">
-            <label htmlFor="password2">Επαλήθευση κωδικού</label>
-            <input
-              type="password"
-              className="form__input"
-              id="password2"
-              name="password2"
-              onChange={handleChange}
-              value={form.password2}
-            />
-            {/* <span
-            className={classNames(
-              {
-                block: isError
-              },
-              'error'
-            )}
-          >
-            Οι κωδικοί δεν ταιριάζουν
-          </span> */}
-          </div>
+
           <input type="submit" value="Εγγραφή" className="form__submit" />
         </form>
       )}
