@@ -34,7 +34,7 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <NavLink to="/" className="navbar__menu-item">
+            <NavLink to="/profile" className="navbar__menu-item">
               Προφίλ
             </NavLink>
             <div

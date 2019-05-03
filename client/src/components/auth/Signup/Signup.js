@@ -41,7 +41,7 @@ export default function Signup() {
       <form className="form form__signup" onSubmit={handleSubmit}>
         <h2 className="section--title form--title">Εγγραφή</h2>
         <div className="form__input--wrapper">
-          <label htmlFor="firstName">E-mail</label>
+          <label htmlFor="email">E-mail</label>
           <input
             type="email"
             className="form__input"

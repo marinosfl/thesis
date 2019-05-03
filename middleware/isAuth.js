@@ -18,7 +18,7 @@ module.exports = async req => {
       return currentUser;
     }
 
-    currentUser = await User.findOne({ email: decodedToken.email });
+    currentUser = await User.findOne({ _id: decodedToken.userId });
   } catch (err) {
     console.error(`Unable to authenticate user`);
   }

@@ -8,7 +8,7 @@ import Context from '../../../context';
 import classNames from 'classnames';
 import '../Form.scss';
 
-export default function Login() {
+export default function Login(props) {
   const { dispatch } = useContext(Context);
 
   const [email, setEmail] = useState('');
@@ -24,12 +24,16 @@ export default function Login() {
         email,
         password
       });
+      // saving jwt token @localStorage
       localStorage.setItem('token', loginData.login.token);
-      console.log(loginData.login.currentUser);
+      // Setting up the data of currentUser @global Context state
       dispatch({
         type: 'LOGIN_USER',
         payload: loginData.login.currentUser
       });
+
+      // Redirect user on home page after login
+      props.history.push('/');
     } catch (err) {
       console.log(err);
     }
@@ -69,7 +73,7 @@ export default function Login() {
             Οι κωδικοί δεν ταιριάζουν
           </span>
         </div>
-        <input type="submit" value="Εγγραφή" className="form__submit" />
+        <input type="submit" value="Σύνδεση" className="form__submit" />
       </form>
     </div>
   );

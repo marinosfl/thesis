@@ -10,14 +10,21 @@ const userValidation = require('./validation/user');
 
 const authenticated = next => (root, args, ctx, info) => {
   if (!ctx.currentUser) {
-    throw new AuthenticationError('You must be logged in');
+    throw new Error('You must be logged in');
+  }
+  return next(root, args, ctx, info);
+};
+
+const autoLogin = next => (root, args, ctx, info) => {
+  if (!ctx.currentUser) {
+    return;
   }
   return next(root, args, ctx, info);
 };
 
 module.exports = {
   Query: {
-    me: authenticated((root, args, ctx) => ctx.currentUser),
+    me: autoLogin((root, args, ctx) => ctx.currentUser),
     user: async (root, args, ctx) => {
       const user = await User.findById(args._id);
       return user;
@@ -46,11 +53,9 @@ module.exports = {
         throw new Error('Password is incorrect');
       }
 
-      const token = jwt.sign(
-        { userId: user._id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: '1h'
+      });
 
       return {
         userId: user.id,
