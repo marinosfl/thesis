@@ -63,7 +63,15 @@ module.exports = {
         tokenExpiration: 1,
         currentUser: user
       };
-    }
+    },
+    meActions: authenticated(async (root, args, ctx) => {
+      console.log(args.authorId);
+      const actions = await Action.find({ author: args.authorId }).populate(
+        'author'
+      );
+
+      return actions;
+    })
   },
   Mutation: {
     register: async (root, args, ctx) => {
@@ -96,7 +104,7 @@ module.exports = {
     createAction: authenticated(async (root, args, ctx) => {
       const newAction = await new Action({
         ...args.action,
-        author: '5cbe3e00ef90cf692d73c9cf'
+        author: ctx.currentUser._id
       }).save();
       const actionAdded = await User.populate(newAction, 'author');
       return actionAdded;

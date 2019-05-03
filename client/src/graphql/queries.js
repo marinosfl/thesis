@@ -25,3 +25,19 @@ export const ME_QUERY = `
   }
 }
 `;
+
+export const ME_ACTIONS_QUERY = `
+query meActions($authorId: ID!){
+  meActions(authorId: $authorId) {
+    _id,
+    date,
+    title,
+    description
+    approved
+    author {
+      _id
+      firstName
+    }
+  }
+}
+`;

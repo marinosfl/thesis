@@ -8,6 +8,7 @@ module.exports = gql`
     email: String
     password: String
     date: String
+    actions: [Action!]
   }
 
   type Action {
@@ -32,6 +33,7 @@ module.exports = gql`
     actions: [Action!]
     login(email: String!, password: String!): AuthData
     me: User
+    meActions(authorId: ID!): [Action!]
   }
 
   input RegisterInput {

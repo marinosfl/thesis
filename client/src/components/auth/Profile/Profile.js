@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import Context from '../../../context';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import { GraphQLClient } from 'graphql-request';
 
 import { BASE_URL } from '../../../client';
+import { ME_ACTIONS_QUERY } from '../../../graphql/queries';
 import { UPDATE_PROFILE_MUTATION } from '../../../graphql/mutations';
 
 import '../Form.scss';
@@ -18,7 +19,6 @@ const initialState = {
 
 export default function Profile() {
   const { state, dispatch } = useContext(Context);
-  // const { currentUser } = state;
   const [form, setForm] = useState(initialState);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -35,6 +35,28 @@ export default function Profile() {
       setForm(initialState);
     }
   }, [state.currentUser]);
+
+  useEffect(() => {
+    if (state.currentUser) {
+      fetchActions();
+      console.log(state.currentUser);
+    }
+  }, [state.currentUser]);
+
+  const fetchActions = async () => {
+    try {
+      const client = new GraphQLClient(BASE_URL, {
+        headers: { authorization: localStorage.getItem('token') }
+      });
+
+      const actions = await client.request(ME_ACTIONS_QUERY, {
+        authorId: state.currentUser._id
+      });
+      console.log(actions);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleChange = event => {
     setForm({
@@ -107,11 +129,5 @@ export default function Profile() {
         </form>
       )}
     </div>
-    // <div className="container">
-    //   <div className="firstName">
-    //     {currentUser ? currentUser.firstName : ''}
-    //     {currentUser ? currentUser.email : ''}
-    //   </div>
-    // </div>
   );
 }

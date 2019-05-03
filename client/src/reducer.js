@@ -12,7 +12,6 @@ export default function reducer(state, { type, payload }) {
         currentUser: payload
       };
     case 'UPDATE_PROFILE':
-      console.log('reducer', payload);
       return {
         ...state,
         currentUser: payload
