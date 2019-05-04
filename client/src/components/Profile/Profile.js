@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import Context from '../../../context';
+import Context from '../../context';
 // import classNames from 'classnames';
 import { GraphQLClient } from 'graphql-request';
 
-import { BASE_URL } from '../../../client';
-import { ME_ACTIONS_QUERY } from '../../../graphql/queries';
-import { UPDATE_PROFILE_MUTATION } from '../../../graphql/mutations';
+import { BASE_URL } from '../../client';
+import { ME_ACTIONS_QUERY } from '../../graphql/queries';
+import { UPDATE_PROFILE_MUTATION } from '../../graphql/mutations';
 
-import '../Form.scss';
 import './Profile.scss';
 
 const initialState = {
@@ -125,7 +124,7 @@ export default function Profile() {
             />
           </div>
 
-          <input type="submit" value="Εγγραφή" className="form__submit" />
+          <input type="submit" value="Αποθήκευση" className="form__submit" />
         </form>
       )}
     </div>

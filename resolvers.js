@@ -65,7 +65,6 @@ module.exports = {
       };
     },
     meActions: authenticated(async (root, args, ctx) => {
-      console.log(args.authorId);
       const actions = await Action.find({ author: args.authorId }).populate(
         'author'
       );

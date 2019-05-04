@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { GraphQLClient } from 'graphql-request';
 
 export const BASE_URL =
@@ -7,15 +6,9 @@ export const BASE_URL =
     : 'http://localhost:4000/graphql';
 
 export const useClient = () => {
-  const [idToken, setIdToken] = useState('');
+  const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    setIdToken(token);
-  }, []);
-  console.log(idToken);
   return new GraphQLClient(BASE_URL, {
-    headers: { authorization: idToken }
+    headers: { authorization: token }
   });
 };

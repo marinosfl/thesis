@@ -14,7 +14,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import Header from './components/Header/Header';
-import Routes from './routes/Routes';
+import Routes from './Routes';
 
 import './index.scss';
 
