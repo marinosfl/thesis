@@ -7,11 +7,10 @@ import { CREATE_USER_MUTATION } from '../../../graphql/mutations';
 import classNames from 'classnames';
 import '../Form.scss';
 
-export default function Signup() {
+export default function Signup(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const [user, setUser] = useState(null);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -27,13 +26,15 @@ export default function Signup() {
 
     // Validating password and password2 are the same
     if (password === password2 && email) {
-      setUser({ email, password });
+      const client = new GraphQLClient(BASE_URL, {});
+      await client.request(CREATE_USER_MUTATION, {
+        email,
+        password
+      });
+
+      // Redirect user on home page after login
+      props.history.push('/');
     }
-    const client = new GraphQLClient(BASE_URL, {});
-    const user = await client.request(CREATE_USER_MUTATION, {
-      email,
-      password
-    });
   };
 
   return (

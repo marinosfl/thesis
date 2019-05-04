@@ -98,6 +98,7 @@ module.exports = {
         { $set: { firstName, lastName, email } },
         { new: true }
       );
+      updatedProfile.password = null;
       return updatedProfile;
     }),
     createAction: authenticated(async (root, args, ctx) => {

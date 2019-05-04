@@ -35,16 +35,19 @@ export default function Navbar() {
         ) : (
           <>
             <NavLink to="/profile" className="navbar__menu-item">
-              Προφίλ
+              {state.currentUser.firstName
+                ? state.currentUser.firstName
+                : 'Προφίλ'}
             </NavLink>
-            <div
+            <NavLink
+              to="/"
               className="navbar__menu-item"
               onClick={() => {
                 dispatch({ type: 'LOGOUT_USER', payload: null });
               }}
             >
               Αποσύνδεση
-            </div>
+            </NavLink>
           </>
         )}
       </div>
