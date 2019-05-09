@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useClient } from '../../../client';
 import { ME_ACTIONS_QUERY } from '../../../graphql/queries';
 
+import Action from '../../Action/Action';
+
 export default function UserActions({ userId }) {
   const client = useClient();
   const [actions, setActions] = useState([]);
@@ -26,7 +28,7 @@ export default function UserActions({ userId }) {
   return (
     <div>
       {actions.map(action => {
-        return <div key={action._id}>{action.title}</div>;
+        return <Action key={action._id} actionData={action} />;
       })}
       actions
     </div>

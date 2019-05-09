@@ -1,0 +1,20 @@
+.action {
+  display: flex;
+  align-items: center;
+  height: 12rem;
+  max-width: 70rem;
+  margin: 0 auto;
+  background-color: yellowgreen;
+  font-size: var(--font-text-medium);
+
+  &__image {
+    border-radius: 50%;
+    height: 10rem;
+  }
+
+  &__counter {
+    height: 10rem;
+    width: 2rem;
+    background-color: blue;
+  }
+}
