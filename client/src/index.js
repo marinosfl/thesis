@@ -38,8 +38,12 @@ const App = () => {
     <Router>
       <ApolloProvider client={client}>
         <Context.Provider value={{ state, dispatch }}>
-          <Header />
-          <Routes />
+          <>
+            <Header />
+            <main className="main">
+              <Routes />
+            </main>
+          </>
         </Context.Provider>
       </ApolloProvider>
     </Router>

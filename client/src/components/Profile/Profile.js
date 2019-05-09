@@ -16,7 +16,6 @@ export default function Profile() {
   useEffect(() => {
     if (state.currentUser) {
       setIsLoading(false);
-      console.log(state.currentUser._id);
     }
   }, [state.currentUser]);
 
