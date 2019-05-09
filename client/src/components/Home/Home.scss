@@ -1,0 +1,49 @@
+.take-part {
+  &__container {
+    height: 40rem;
+    background-color: lightgray;
+    text-align: center;
+    font-size: var(--font-heading-big);
+    color: var(--color-black);
+  }
+
+  &__voting {
+    padding: 4rem 0;
+  }
+
+  &__countdown {
+    font-size: 5rem;
+  }
+
+  &__idea {
+    font-size: var(--font-heading-medium);
+    margin-bottom: 3rem;
+  }
+
+  &__improve {
+    font-size: var(--font-heading-big);
+    display: block;
+  }
+
+  &__submit {
+    padding: 0.8rem 2rem;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    font-size: 1.6rem;
+    transition: all 0.2s;
+    border: 1px solid var(--color-primary);
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      outline: none;
+      transform: translateY(-1px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    }
+  }
+}

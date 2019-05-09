@@ -1,0 +1,13 @@
+.form__new-action {
+  .form__input--wrapper {
+    &:last-of-type {
+      flex-direction: row;
+      align-items: center;
+
+      .form__input {
+        width: auto;
+        margin-left: 1rem;
+      }
+    }
+  }
+}

@@ -1,20 +1,24 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import './Home.scss';
 
 export default function Home() {
   return (
     <section className="take-part">
-      <div className="container">
+      <div className="container take-part__container">
+        <p className="take-part__voting">
+          Επόμενη Ψηφοφορία:{' '}
+          <span className="take-part__countdown">17:05:44</span>
+        </p>
         <div>
-          Επόμενη Ψηφοφορία: <span>17:05:44</span>
-        </div>
-        <div>
-          <div>
+          <div className="take-part__idea">
             Υπόβαλε την ιδέα σου,
-            <span>Βελτίωσε τον τοπο σου!</span>
+            <span className="take-part__improve">Βελτίωσε τον τοπο σου!</span>
           </div>
-          <button>Υποβολή</button>
+          <NavLink to="/submit_action" className="take-part__submit">
+            ΥΠΟΒΟΛΗ
+          </NavLink>
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ import Home from './components/Home/Home';
 import Login from './components/auth/Login/Login';
 import Signup from './components/auth/Signup/Signup';
 import Profile from './components/Profile/Profile';
+import ActionForm from './components/ActionForm/ActionForm';
 
 export default class Routes extends Component {
   render() {
@@ -14,6 +15,7 @@ export default class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/profile" component={Profile} />
+        <Route path="/submit_action" component={ActionForm} />
       </Switch>
     );
   }

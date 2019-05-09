@@ -13,6 +13,24 @@ export const CREATE_USER_MUTATION = `
   }
 `;
 
+export const CREATE_ACTION_MUTATION = `
+  mutation($title: String!, $description: String!) {
+    createAction(action: {
+      title: $title,
+      description: $description
+     
+    }) {
+      _id
+     title
+     description
+     author {
+       _id
+       firstName
+     }
+    }
+  }
+`;
+
 export const UPDATE_PROFILE_MUTATION = `
   mutation($email: String!, $firstName: String, $lastName: String) {
     updateProfile(profileData: {
