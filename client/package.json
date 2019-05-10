@@ -11,12 +11,19 @@
     "graphql": "^14.2.1",
     "graphql-request": "^1.8.2",
     "graphql-tag": "^2.10.1",
+    "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
+    "react-moment": "^0.9.2",
+    "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^2.1.8",
-    "subscriptions-transport-ws": "^0.9.16"
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "subscriptions-transport-ws": "^0.9.16",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

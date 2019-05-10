@@ -12,9 +12,13 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+// Redux
+import { Provider } from 'react-redux';
+import store from './store';
 
 import Header from './components/Header/Header';
 import Routes from './Routes';
+import Alert from './components/Alert/Alert';
 
 import './index.scss';
 
@@ -37,14 +41,17 @@ const App = () => {
   return (
     <Router>
       <ApolloProvider client={client}>
-        <Context.Provider value={{ state, dispatch }}>
-          <>
-            <Header />
-            <main className="main">
-              <Routes />
-            </main>
-          </>
-        </Context.Provider>
+        <Provider store={store}>
+          <Context.Provider value={{ state, dispatch }}>
+            <>
+              <Header />
+              <main className="main">
+                <Alert />
+                <Routes />
+              </main>
+            </>
+          </Context.Provider>
+        </Provider>
       </ApolloProvider>
     </Router>
   );
