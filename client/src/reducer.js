@@ -1,9 +1,15 @@
 export default function reducer(state, { type, payload }) {
   switch (type) {
     case 'LOGIN_USER':
+      let isAuth = false;
+
+      if (payload) {
+        isAuth = true;
+      }
       return {
         ...state,
-        currentUser: payload
+        currentUser: payload,
+        isAuth
       };
     case 'LOGOUT_USER':
       localStorage.setItem('token', '');

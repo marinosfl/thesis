@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-// import { GraphQLClient } from 'graphql-request';
-
 import { useClient } from '../../client';
 import { CREATE_ACTION_MUTATION } from '../../graphql/mutations';
 
@@ -18,12 +16,10 @@ export default function ActionForm() {
     event.preventDefault();
 
     if (title && description && terms) {
-      const { createAction } = await client.request(CREATE_ACTION_MUTATION, {
+      await client.request(CREATE_ACTION_MUTATION, {
         title,
         description
       });
-
-      console.log(createAction);
     }
   };
 

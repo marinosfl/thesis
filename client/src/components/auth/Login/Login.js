@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import { GraphQLClient } from 'graphql-request';
 
 import { BASE_URL } from '../../../client';
@@ -7,6 +8,7 @@ import Context from '../../../context';
 
 import classNames from 'classnames';
 import '../Form.scss';
+import './Login.scss';
 
 export default function Login(props) {
   const { dispatch } = useContext(Context);
@@ -75,6 +77,9 @@ export default function Login(props) {
         </div>
         <input type="submit" value="Σύνδεση" className="form__submit" />
       </form>
+      <p className="link-to-signup">
+        Δέν έχετε λογαριασμό; <NavLink to="/signup">Εγγραφείτε</NavLink>
+      </p>
     </div>
   );
 }
