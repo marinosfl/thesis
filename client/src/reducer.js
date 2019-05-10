@@ -6,6 +6,8 @@ export default function reducer(state, { type, payload }) {
       if (payload) {
         isAuth = true;
       }
+
+      console.log(payload);
       return {
         ...state,
         currentUser: payload,

@@ -9,6 +9,7 @@ export const LOGIN_QUERY = `
         firstName
         lastName
         date
+        role
       }
     }
   }

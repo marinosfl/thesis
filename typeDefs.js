@@ -9,6 +9,7 @@ module.exports = gql`
     password: String
     date: String
     actions: [Action!]
+    role: String
   }
 
   type Action {
