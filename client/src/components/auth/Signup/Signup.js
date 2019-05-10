@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { GraphQLClient } from 'graphql-request';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { BASE_URL } from '../../../client';
 import { CREATE_USER_MUTATION } from '../../../graphql/mutations';
+import { setAlert } from '../../../actions/alert';
 
 import classNames from 'classnames';
 import '../Form.scss';
 
-export default function Signup(props) {
+const Signup = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
@@ -95,4 +98,13 @@ export default function Signup(props) {
       </form>
     </div>
   );
-}
+};
+
+Signup.propTypes = {
+  setAlert: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { setAlert }
+)(Signup);
