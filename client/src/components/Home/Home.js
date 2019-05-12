@@ -1,13 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-import Context from '../../context';
 
 import './Home.scss';
 
 export default function Home() {
-  const { state } = useContext(Context);
-
   return (
     <section className="take-part">
       <div className="container take-part__container">
@@ -22,7 +18,8 @@ export default function Home() {
           </div>
           <NavLink
             // if user is logged in redirect him to submit_action, otherwise to /login
-            to={state.isAuth ? '/submit_action' : '/login'}
+            // to={state.isAuth ? '/submit_action' : '/login'}
+            to="/submit_action"
             className="take-part__submit"
           >
             ΥΠΟΒΟΛΗ

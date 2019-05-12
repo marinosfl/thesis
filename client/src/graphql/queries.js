@@ -2,15 +2,6 @@ export const LOGIN_QUERY = `
   query Login($email: String!, $password: String!){
     login(email: $email, password: $password){
       token
-      tokenExpiration
-      currentUser {
-        _id
-        email
-        firstName
-        lastName
-        date
-        role
-      }
     }
   }
 `;
@@ -23,6 +14,7 @@ export const ME_QUERY = `
     firstName
     lastName
     date
+    role
   }
 }
 `;

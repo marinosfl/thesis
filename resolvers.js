@@ -57,12 +57,7 @@ module.exports = {
         expiresIn: '1h'
       });
 
-      return {
-        userId: user.id,
-        token,
-        tokenExpiration: 1,
-        currentUser: user
-      };
+      return { token };
     },
     meActions: authenticated(async (root, args, ctx) => {
       const actions = await Action.find({ author: args.authorId }).populate(
@@ -84,9 +79,15 @@ module.exports = {
           ...args.user
         }).save();
 
-        // hidding the password from the return for security reasons
-        newUser.password = null;
-        return newUser;
+        const token = jwt.sign(
+          { userId: newUser._id },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '1h'
+          }
+        );
+
+        return { token };
       } catch (err) {
         throw err;
       }

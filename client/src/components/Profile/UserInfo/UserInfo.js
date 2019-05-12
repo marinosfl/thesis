@@ -1,14 +1,12 @@
-import React, { useState, useContext } from 'react';
-import Context from '../../../context';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { updateUser } from '../../../actions/auth';
+
 // import classNames from 'classnames';
 
-import { useClient } from '../../../client';
-import { UPDATE_PROFILE_MUTATION } from '../../../graphql/mutations';
-
-export default function UserInfo({ user }) {
-  const client = useClient();
-  const { dispatch } = useContext(Context);
-
+const UserInfo = ({ user, updateUser }) => {
   const { email, firstName, lastName } = user;
 
   const [userEmail] = useState(email);
@@ -17,18 +15,7 @@ export default function UserInfo({ user }) {
 
   const handleSubmit = async event => {
     event.preventDefault();
-
-    try {
-      const { updateProfile } = await client.request(UPDATE_PROFILE_MUTATION, {
-        email: userEmail,
-        firstName: userFirstName,
-        lastName: userLastName
-      });
-
-      dispatch({ type: 'UPDATE_PROFILE', payload: updateProfile });
-    } catch (err) {
-      console.log(err);
-    }
+    updateUser({ userEmail, userFirstName, userLastName });
   };
 
   return (
@@ -72,4 +59,13 @@ export default function UserInfo({ user }) {
       </form>
     </>
   );
-}
+};
+
+UserInfo.propTypes = {
+  updateUser: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { updateUser }
+)(UserInfo);

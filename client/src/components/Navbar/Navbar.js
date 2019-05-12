@@ -1,12 +1,41 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
 import { NavLink } from 'react-router-dom';
-import Context from '../../context';
 
 import './Navbar.scss';
 
-export default function Navbar() {
-  const { state, dispatch } = useContext(Context);
+const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
+  const authLinks = (
+    <>
+      {user && user.role === 'admin' ? (
+        <NavLink to="/dashboard" className="navbar__menu-item">
+          Dashboard
+        </NavLink>
+      ) : (
+        ''
+      )}
+      <NavLink to="/profile" className="navbar__menu-item">
+        {user ? user.firstName : 'Προφίλ'}
+      </NavLink>
+      <NavLink to="/" className="navbar__menu-item" onClick={logout}>
+        Αποσύνδεση
+      </NavLink>
+    </>
+  );
+
+  const guestLinks = (
+    <>
+      <NavLink to="/signup" className="navbar__menu-item navbar__signup">
+        Εγγραφή
+      </NavLink>
+      <NavLink to="/login" className="navbar__menu-item">
+        Σύνδεση
+      </NavLink>
+    </>
+  );
 
   return (
     <nav className="navbar container">
@@ -23,34 +52,22 @@ export default function Navbar() {
       </div>
 
       <div className="navbar__menu">
-        {!state.currentUser ? (
-          <>
-            <NavLink to="/signup" className="navbar__menu-item navbar__signup">
-              Εγγραφή
-            </NavLink>
-            <NavLink to="/login" className="navbar__menu-item">
-              Σύνδεση
-            </NavLink>
-          </>
-        ) : (
-          <>
-            <NavLink to="/profile" className="navbar__menu-item">
-              {state.currentUser.firstName
-                ? state.currentUser.firstName
-                : 'Προφίλ'}
-            </NavLink>
-            <NavLink
-              to="/"
-              className="navbar__menu-item"
-              onClick={() => {
-                dispatch({ type: 'LOGOUT_USER', payload: null });
-              }}
-            >
-              Αποσύνδεση
-            </NavLink>
-          </>
-        )}
+        {!loading && <> {isAuthenticated ? authLinks : guestLinks} </>}
       </div>
     </nav>
   );
-}
+};
+
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Navbar);

@@ -3,12 +3,8 @@ export const CREATE_USER_MUTATION = `
     register(user: {
       email: $email,
       password: $password
-     
     }) {
-      _id
-     email
-     password
-      
+      token
     }
   }
 `;
@@ -18,7 +14,6 @@ export const CREATE_ACTION_MUTATION = `
     createAction(action: {
       title: $title,
       description: $description
-     
     }) {
       _id
      title

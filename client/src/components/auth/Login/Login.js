@@ -1,18 +1,14 @@
-import React, { useState, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
-import { GraphQLClient } from 'graphql-request';
-
-import { BASE_URL } from '../../../client';
-import { LOGIN_QUERY } from '../../../graphql/queries';
-import Context from '../../../context';
+import React, { useState } from 'react';
+import { NavLink, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../../actions/auth';
 
 import classNames from 'classnames';
 import '../Form.scss';
 import './Login.scss';
 
-export default function Login(props) {
-  const { dispatch } = useContext(Context);
-
+const Login = ({ login, isAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isError] = useState(false);
@@ -20,26 +16,13 @@ export default function Login(props) {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    try {
-      const client = new GraphQLClient(BASE_URL, {});
-      const loginData = await client.request(LOGIN_QUERY, {
-        email,
-        password
-      });
-      // saving jwt token @localStorage
-      localStorage.setItem('token', loginData.login.token);
-      // Setting up the data of currentUser @global Context state
-      dispatch({
-        type: 'LOGIN_USER',
-        payload: loginData.login.currentUser
-      });
-
-      // Redirect user on home page after login
-      props.history.push('/');
-    } catch (err) {
-      console.log(err);
-    }
+    login(email, password);
   };
+
+  // Redirect if logged in
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="container">
@@ -82,4 +65,18 @@ export default function Login(props) {
       </p>
     </div>
   );
-}
+};
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  { login }
+)(Login);

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import Context from '../../context';
 // import classNames from 'classnames';
 
 import UserInfo from './UserInfo/UserInfo';
@@ -8,27 +9,32 @@ import UserActions from './UserActions/UserActions';
 
 import './Profile.scss';
 
-export default function Profile() {
-  const { state } = useContext(Context);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (state.currentUser) {
-      setIsLoading(false);
-    }
-  }, [state.currentUser]);
-
+const Profile = ({ user, loading }) => {
   return (
     <div className="container">
-      {isLoading ? (
+      {loading ? (
         'Loading'
       ) : (
         <>
-          <UserInfo user={state.currentUser} />
-          <UserActions userId={state.currentUser._id} />
+          <UserInfo user={user} />
+          <UserActions userId={user._id} />
         </>
       )}
     </div>
   );
-}
+};
+
+Profile.propTypes = {
+  user: PropTypes.object,
+  loading: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  loading: state.auth.loading
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(Profile);

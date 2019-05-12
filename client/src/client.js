@@ -8,7 +8,9 @@ export const BASE_URL =
 export const useClient = () => {
   const token = localStorage.getItem('token');
 
-  return new GraphQLClient(BASE_URL, {
-    headers: { authorization: token }
-  });
+  if (token) {
+    return new GraphQLClient(BASE_URL, {
+      headers: { authorization: token }
+    });
+  }
 };

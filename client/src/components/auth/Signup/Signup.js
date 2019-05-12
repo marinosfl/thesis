@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { GraphQLClient } from 'graphql-request';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { BASE_URL } from '../../../client';
-import { CREATE_USER_MUTATION } from '../../../graphql/mutations';
 import { setAlert } from '../../../actions/alert';
+import { register } from '../../../actions/auth';
 
 import classNames from 'classnames';
 import '../Form.scss';
@@ -19,6 +18,7 @@ const Signup = props => {
   useEffect(() => {
     if (password && password2 && password !== password2) {
       setIsError(true);
+      props.setAlert('passwords do not match', 'error');
     } else {
       setIsError(false);
     }
@@ -28,17 +28,19 @@ const Signup = props => {
     event.preventDefault();
 
     // Validating password and password2 are the same
-    if (password === password2 && email) {
-      const client = new GraphQLClient(BASE_URL, {});
-      await client.request(CREATE_USER_MUTATION, {
-        email,
-        password
-      });
+    if (password && password === password2 && email) {
+      props.register({ email, password });
 
       // Redirect user on home page after login
       props.history.push('/');
+    } else {
+      setAlert('passwords do not match', 'error');
     }
   };
+
+  if (props.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="container">
@@ -101,10 +103,16 @@ const Signup = props => {
 };
 
 Signup.propTypes = {
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
 export default connect(
-  null,
-  { setAlert }
+  mapStateToProps,
+  { setAlert, register }
 )(Signup);

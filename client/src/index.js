@@ -1,8 +1,5 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-
-import Context from './context';
-import reducer from './reducer';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -12,12 +9,15 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
+import { loadUser } from './actions/auth';
 
+// Components
 import Header from './components/Header/Header';
-import Routes from './Routes';
+import Routes from './routes/Routes';
 import Alert from './components/Alert/Alert';
 
 import './index.scss';
@@ -35,22 +35,21 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const initialState = useContext(Context);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
 
   return (
     <Router>
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <Context.Provider value={{ state, dispatch }}>
-            <>
-              <Header />
-              <main className="main">
-                <Alert />
-                <Routes />
-              </main>
-            </>
-          </Context.Provider>
+          <>
+            <Header />
+            <main className="main">
+              <Alert />
+              <Routes />
+            </main>
+          </>
         </Provider>
       </ApolloProvider>
     </Router>
