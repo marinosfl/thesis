@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { updateUser } from '../../../actions/auth';
+import { updateCurrentProfile } from '../../../actions/profile';
 
 // import classNames from 'classnames';
 
-const UserInfo = ({ user, updateUser }) => {
+const UserInfo = ({ user, updateCurrentProfile }) => {
   const { email, firstName, lastName } = user;
 
   const [userEmail] = useState(email);
@@ -15,7 +15,7 @@ const UserInfo = ({ user, updateUser }) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    updateUser({ userEmail, userFirstName, userLastName });
+    updateCurrentProfile({ userEmail, userFirstName, userLastName });
   };
 
   return (
@@ -62,10 +62,10 @@ const UserInfo = ({ user, updateUser }) => {
 };
 
 UserInfo.propTypes = {
-  updateUser: PropTypes.func.isRequired
+  updateCurrentProfile: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  { updateUser }
+  { updateCurrentProfile }
 )(UserInfo);

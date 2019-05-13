@@ -7,16 +7,11 @@ import {
   USER_LOADER,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT,
-  UPDATE_PROFILE
+  LOGOUT
 } from './types';
-import { BASE_URL } from '../client';
-import {
-  CREATE_USER_MUTATION,
-  UPDATE_PROFILE_MUTATION
-} from '../graphql/mutations';
+import { BASE_URL, useClient } from '../client';
+import { CREATE_USER_MUTATION } from '../graphql/mutations';
 import { ME_QUERY, LOGIN_QUERY } from '../graphql/queries';
-import { useClient } from '../client';
 // import { setAlert } from './alert';
 
 // Load User
@@ -33,26 +28,6 @@ export const loadUser = () => async dispatch => {
     dispatch({
       type: AUTH_ERROR
     });
-  }
-};
-
-export const updateUser = props => async dispatch => {
-  const client = useClient();
-  console.log(props);
-  const { userEmail, userFirstName, userLastName } = props;
-  try {
-    const { updateProfile } = await client.request(UPDATE_PROFILE_MUTATION, {
-      email: userEmail,
-      firstName: userFirstName,
-      lastName: userLastName
-    });
-    console.log(updateProfile);
-    dispatch({
-      type: UPDATE_PROFILE,
-      payload: updateProfile
-    });
-  } catch (err) {
-    console.log(err);
   }
 };
 

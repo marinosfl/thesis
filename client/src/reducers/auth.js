@@ -5,8 +5,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT,
-  UPDATE_PROFILE
+  LOGOUT
 } from '../actions/types';
 
 const initialState = {
@@ -21,7 +20,6 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case USER_LOADER:
-    case UPDATE_PROFILE:
       return {
         ...state,
         isAuthenticated: true,
