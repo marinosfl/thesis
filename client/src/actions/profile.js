@@ -1,5 +1,5 @@
 import { useClient } from '../client';
-import { setAlert } from './alert';
+// import { setAlert } from './alert';
 
 import { UPDATE_PROFILE_MUTATION } from '../graphql/mutations';
 import { ME_QUERY } from '../graphql/queries';
