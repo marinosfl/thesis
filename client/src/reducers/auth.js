@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -12,7 +13,8 @@ const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: null
+  user: null,
+  errors: null
 };
 
 export default function(state = initialState, action) {
@@ -40,11 +42,21 @@ export default function(state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
+
+      let errors = null;
+
+      if (payload) {
+        errors = payload.map(error => ({
+          message: error,
+          id: uuid.v4()
+        }));
+      }
       return {
         ...state,
         token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
+        errors
       };
     default:
       return state;

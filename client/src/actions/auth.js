@@ -35,6 +35,7 @@ export const loadUser = () => async dispatch => {
 export const register = ({ email, password }) => async dispatch => {
   const client = new GraphQLClient(BASE_URL, {});
   try {
+    console.log('@register');
     const { register } = await client.request(CREATE_USER_MUTATION, {
       email,
       password
@@ -44,11 +45,12 @@ export const register = ({ email, password }) => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: register
     });
+    console.log('2');
     dispatch(loadUser());
   } catch (err) {
     // console.log(err.response.errors.message);
     // const errors = err.response.data.errors;
-    console.log(err);
+    console.log({ err });
     // if (errors) {
     //   errors.forEach(error => dispatch(setAlert(err.msg, 'error')));
     // }
@@ -75,15 +77,13 @@ export const login = (email, password) => async dispatch => {
 
     dispatch(loadUser());
   } catch (err) {
-    // console.log(err.response.errors.message);
-    // const errors = err.response.data.errors;
-    console.log(err);
+    const errors = err.response.errors.map(err => err.message);
     // if (errors) {
-    //   errors.forEach(error => dispatch(setAlert(err.msg, 'error')));
+    //   errors.forEach(error => dispatch(setAlert(error, 'error')));
     // }
-
     dispatch({
-      type: LOGIN_FAIL
+      type: LOGIN_FAIL,
+      payload: errors
     });
   }
 };

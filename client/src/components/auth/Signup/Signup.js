@@ -2,25 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Error from '../../Error/Error';
+import Label from '../Label/Label';
 
-import { setAlert } from '../../../actions/alert';
 import { register } from '../../../actions/auth';
 
-import classNames from 'classnames';
 import '../Form.scss';
+import './Signup.scss';
 
-const Signup = props => {
+const Signup = ({ register, isAuthenticated, errors }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const [isError, setIsError] = useState(false);
+
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [password2Focus, setPassword2Focus] = useState(false);
 
   useEffect(() => {
     if (password && password2 && password !== password2) {
-      setIsError(true);
-      props.setAlert('passwords do not match', 'error');
     } else {
-      setIsError(false);
     }
   }, [password, password2]);
 
@@ -29,16 +30,12 @@ const Signup = props => {
 
     // Validating password and password2 are the same
     if (password && password === password2 && email) {
-      props.register({ email, password });
-
-      // Redirect user on home page after login
-      props.history.push('/');
+      register({ email, password });
     } else {
-      setAlert('passwords do not match', 'error');
     }
   };
 
-  if (props.isAuthenticated) {
+  if (isAuthenticated) {
     return <Redirect to="/" />;
   }
 
@@ -47,55 +44,50 @@ const Signup = props => {
       <form className="form form__signup" onSubmit={handleSubmit}>
         <h2 className="section--title form--title">Εγγραφή</h2>
         <div className="form__input--wrapper">
-          <label htmlFor="email">E-mail</label>
           <input
             type="email"
             className="form__input"
             id="email"
             onChange={event => setEmail(event.target.value)}
+            onFocus={() => setEmailFocus(true)}
+            onBlur={event => !event.target.value && setEmailFocus(false)}
             value={email}
           />
+          <Label isFocused={emailFocus} input={'email'} name={'E-mail'} />
         </div>
         <div className="form__input--wrapper">
-          <label htmlFor="password">Κωδικός</label>
           <input
             type="password"
             className="form__input"
             id="password"
             onChange={event => setPassword(event.target.value)}
+            onFocus={() => setPasswordFocus(true)}
+            onBlur={event => !event.target.value && setPasswordFocus(false)}
             value={password}
           />
-          <span
-            className={classNames(
-              {
-                block: isError
-              },
-              'error'
-            )}
-          >
-            Οι κωδικοί δεν ταιριάζουν
-          </span>
+          <Label
+            isFocused={passwordFocus}
+            input={'password'}
+            name={'Κωδικός'}
+          />
         </div>
         <div className="form__input--wrapper">
-          <label htmlFor="password2">Επαλήθευση κωδικού</label>
           <input
             type="password"
             className="form__input"
             id="password2"
             onChange={event => setPassword2(event.target.value)}
+            onFocus={() => setPassword2Focus(true)}
+            onBlur={event => !event.target.value && setPassword2Focus(false)}
             value={password2}
           />
-          <span
-            className={classNames(
-              {
-                block: isError
-              },
-              'error'
-            )}
-          >
-            Οι κωδικοί δεν ταιριάζουν
-          </span>
+          <Label
+            isFocused={password2Focus}
+            input={'password2'}
+            name={'Επαλήθευση κωδικού'}
+          />
         </div>
+        {errors && <Error errors={errors} />}
         <input type="submit" value="Εγγραφή" className="form__submit" />
       </form>
     </div>
@@ -103,16 +95,17 @@ const Signup = props => {
 };
 
 Signup.propTypes = {
-  setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  errors: PropTypes.array
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  errors: state.auth.errors
 });
 
 export default connect(
   mapStateToProps,
-  { setAlert, register }
+  { register }
 )(Signup);
