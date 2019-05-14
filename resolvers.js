@@ -1,4 +1,4 @@
-const { PubSub } = require('apollo-server');
+const { AuthenticationError, PubSub } = require('apollo-server');
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -45,12 +45,12 @@ module.exports = {
     login: async (root, { email, password }, ctx) => {
       const user = await User.findOne({ email });
       if (!user) {
-        throw new Error('User does not exist!');
+        throw new AuthenticationError('Invalid credentials');
       }
 
       const isEqual = await bcrypt.compare(password, user.password);
       if (!isEqual) {
-        throw new Error('Password is incorrect');
+        throw new AuthenticationError('Invalid credentials');
       }
 
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
@@ -70,10 +70,24 @@ module.exports = {
   Mutation: {
     register: async (root, args, ctx) => {
       try {
+        const userExists = await User.findOne({ email: args.user.email });
+
+        if (userExists) {
+          throw new AuthenticationError(
+            'An account with this email already exists.'
+          );
+        }
+
         // validating fields with
-        await Joi.validate(args.register, userValidation, {
-          abortEarly: false
+        Joi.validate(args.user, userValidation, (err, value) => {
+          throw new Error(err.message);
         });
+
+        console.log('sdada');
+        // console.log(error);
+        // if (error) {
+        //   throw new Error(error);
+        // }
 
         const newUser = await new User({
           ...args.user
@@ -89,7 +103,8 @@ module.exports = {
 
         return { token };
       } catch (err) {
-        throw err;
+        console.log('wtf');
+        throw new Error(err);
       }
     },
     updateProfile: authenticated(async (root, args, ctx) => {
