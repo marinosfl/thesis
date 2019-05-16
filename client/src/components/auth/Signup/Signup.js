@@ -6,6 +6,7 @@ import Error from '../../Error/Error';
 import Label from '../Label/Label';
 
 import { register } from '../../../actions/auth';
+import validation from '../../../validation/register';
 
 import '../Form.scss';
 import './Signup.scss';
@@ -28,10 +29,19 @@ const Signup = ({ register, isAuthenticated, errors }) => {
   const handleSubmit = async event => {
     event.preventDefault();
 
+    const data = {
+      email,
+      password,
+      password2
+    };
+
+    const { isValid, errors } = validation(data);
+
     // Validating password and password2 are the same
-    if (password && password === password2 && email) {
+    if (isValid) {
       register({ email, password });
     } else {
+      console.log(errors);
     }
   };
 
