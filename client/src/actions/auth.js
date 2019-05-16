@@ -35,7 +35,6 @@ export const loadUser = () => async dispatch => {
 export const register = ({ email, password }) => async dispatch => {
   const client = new GraphQLClient(BASE_URL, {});
   try {
-    console.log('@register');
     const { register } = await client.request(CREATE_USER_MUTATION, {
       email,
       password

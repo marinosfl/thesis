@@ -21,13 +21,11 @@ export const loadActions = () => async dispatch => {
 
 export const loadAction = id => async dispatch => {
   const client = new GraphQLClient(BASE_URL, {});
-  console.log(id);
 
   try {
     const { action } = await client.request(LOAD_ACTION_QUERY, {
       id
     });
-    console.log(action);
     dispatch({
       type: LOAD_ACTION,
       payload: action

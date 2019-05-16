@@ -82,7 +82,6 @@ module.exports = {
           throw new Error(err.message);
         });
 
-        console.log('sdada');
         // console.log(error);
         // if (error) {
         //   throw new Error(error);
@@ -102,7 +101,6 @@ module.exports = {
 
         return { token };
       } catch (err) {
-        console.log('wtf');
         throw new Error(err);
       }
     },
