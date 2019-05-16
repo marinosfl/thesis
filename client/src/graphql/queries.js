@@ -34,3 +34,15 @@ query meActions($authorId: ID!){
   }
 }
 `;
+
+export const LOAD_ACTIONS_QUERY = `
+{
+  actions {
+    _id,
+    date,
+    title,
+    description
+    approved,
+  }
+}
+`;

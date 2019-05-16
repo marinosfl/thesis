@@ -38,7 +38,6 @@ module.exports = {
       return action;
     },
     actions: async (root, args, ctx) => {
-      console.log(ctx.currentUser);
       const actions = await Action.find({});
       return actions;
     },

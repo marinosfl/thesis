@@ -9,6 +9,7 @@ import Signup from '../components/auth/Signup/Signup';
 import Profile from '../components/Profile/Profile';
 import ActionForm from '../components/ActionForm/ActionForm';
 import Dashboard from '../components/Dashboard/Dashboard';
+import Actions from '../components/Actions/Actions';
 
 export default class Routes extends Component {
   render() {
@@ -17,6 +18,7 @@ export default class Routes extends Component {
         <Route path="/" component={Home} exact />
         <Route path="/login" component={Login} exact />
         <Route path="/signup" component={Signup} exact />
+        <Route path="/actions" component={Actions} exact />
         <ProtectedRoute path="/profile" component={Profile} exact />
         <ProtectedRoute path="/submit_action" component={ActionForm} exact />
         <AdminRoute path="/dashboard" component={Dashboard} exact />
