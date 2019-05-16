@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
 
 import { LOAD_ACTIONS, LOAD_ACTION } from './types';
-import { LOAD_ACTIONS_QUERY } from '../graphql/queries';
+import { LOAD_ACTIONS_QUERY, LOAD_ACTION_QUERY } from '../graphql/queries';
 import { BASE_URL } from '../client';
 
 // Load all actions
@@ -13,6 +13,24 @@ export const loadActions = () => async dispatch => {
     dispatch({
       type: LOAD_ACTIONS,
       payload: actions
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const loadAction = id => async dispatch => {
+  const client = new GraphQLClient(BASE_URL, {});
+  console.log(id);
+
+  try {
+    const { action } = await client.request(LOAD_ACTION_QUERY, {
+      id
+    });
+    console.log(action);
+    dispatch({
+      type: LOAD_ACTION,
+      payload: action
     });
   } catch (err) {
     console.log(err);

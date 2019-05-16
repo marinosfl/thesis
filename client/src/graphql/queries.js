@@ -46,3 +46,17 @@ export const LOAD_ACTIONS_QUERY = `
   }
 }
 `;
+
+export const LOAD_ACTION_QUERY = `
+
+  query action($id: ID!){
+    action(_id: $id){
+      _id,
+      date,
+      title,
+      description
+      approved,
+    }
+  }
+
+`;

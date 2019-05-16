@@ -1,0 +1,12 @@
+.actions__current {
+  text-align: center;
+  margin-top: 2rem;
+
+  &--title {
+    font-size: var(--font-heading-medium);
+    margin-bottom: 2rem;
+  }
+  &--description {
+    font-size: var(--font-text-big);
+  }
+}

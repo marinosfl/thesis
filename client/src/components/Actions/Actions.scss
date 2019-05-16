@@ -1,0 +1,20 @@
+.actions {
+  display: flex;
+
+  &__list {
+    list-style: none;
+    flex: 2;
+  }
+
+  &__action {
+    padding: 2rem;
+    margin: 1rem;
+    background-color: lightgray;
+    font-size: var(--font-text-medium);
+    cursor: pointer;
+  }
+
+  &__current {
+    flex: 5;
+  }
+}
