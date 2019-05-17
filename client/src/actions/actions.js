@@ -1,8 +1,9 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { LOAD_ACTIONS, LOAD_ACTION } from './types';
+import { LOAD_ACTIONS, LOAD_ACTION, CREATE_ACTION } from './types';
 import { LOAD_ACTIONS_QUERY, LOAD_ACTION_QUERY } from '../graphql/queries';
-import { BASE_URL } from '../client';
+import { CREATE_ACTION_MUTATION } from '../graphql/mutations';
+import { BASE_URL, useClient } from '../client';
 
 // Load all actions
 export const loadActions = () => async dispatch => {
@@ -19,6 +20,7 @@ export const loadActions = () => async dispatch => {
   }
 };
 
+// Load one action based on id
 export const loadAction = id => async dispatch => {
   const client = new GraphQLClient(BASE_URL, {});
 
@@ -29,6 +31,24 @@ export const loadAction = id => async dispatch => {
     dispatch({
       type: LOAD_ACTION,
       payload: action
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Create new action
+export const createAction = data => async dispatch => {
+  const client = useClient();
+  // const {title, description, latitude, longitude} = data;
+  try {
+    const newAction = await client.request(CREATE_ACTION_MUTATION, {
+      ...data
+    });
+
+    dispatch({
+      type: CREATE_ACTION,
+      payload: newAction
     });
   } catch (err) {
     console.log(err);

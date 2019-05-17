@@ -10,14 +10,23 @@ export const CREATE_USER_MUTATION = `
 `;
 
 export const CREATE_ACTION_MUTATION = `
-  mutation($title: String!, $description: String!) {
+  mutation(
+    $title: String!, 
+    $description: String!, 
+    $latitude: Float!,
+    $longitude: Float!
+    ) {
     createAction(action: {
       title: $title,
-      description: $description
+      description: $description,
+      latitude: $latitude,
+      longitude: $longitude
     }) {
       _id
      title
      description
+     latitude
+     longitude
      author {
        _id
        firstName

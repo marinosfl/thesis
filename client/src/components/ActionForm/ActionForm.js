@@ -1,26 +1,43 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { useClient } from '../../client';
-import { CREATE_ACTION_MUTATION } from '../../graphql/mutations';
+import Map from '../Map/Map';
+
+import { createAction } from '../../actions/actions';
 
 import '../auth/Form.scss';
 import './ActionForm.scss';
 
-export default function ActionForm() {
-  const client = useClient();
+const ActionForm = ({ createAction }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [terms, setTerms] = useState(false);
 
   const handleSubmit = async event => {
     event.preventDefault();
 
     if (title && description && terms) {
-      await client.request(CREATE_ACTION_MUTATION, {
+      const data = {
         title,
-        description
-      });
+        description,
+        latitude,
+        longitude
+      };
+      createAction(data);
     }
+  };
+
+  const handleMapClick = ({ lngLat, leftButton }) => {
+    if (!leftButton) return;
+
+    const longitude = lngLat[0];
+    const latitude = lngLat[1];
+
+    setLatitude(latitude);
+    setLongitude(longitude);
   };
 
   return (
@@ -50,6 +67,12 @@ export default function ActionForm() {
             />
           </div>
 
+          <Map
+            handleClick={handleMapClick}
+            latitude={latitude}
+            longitude={longitude}
+          />
+
           <div className="form__input--wrapper">
             <label htmlFor="title">Αποδοχή Προϋποθέσεων & Όρων χρήσης</label>
             <input
@@ -64,4 +87,14 @@ export default function ActionForm() {
       </div>
     </section>
   );
-}
+};
+
+// mapStateToProps = state => {}
+ActionForm.propTypes = {
+  createAction: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { createAction }
+)(ActionForm);

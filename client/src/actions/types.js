@@ -12,3 +12,4 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const LOAD_ACTIONS = 'LOAD_ACTIONS';
 export const LOAD_ACTION = 'LOAD_ACTION';
+export const CREATE_ACTION = 'CREATE_ACTION';

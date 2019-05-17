@@ -19,6 +19,8 @@ module.exports = gql`
     description: String
     author: User
     approved: Boolean
+    latitude: String
+    longitude: String
   }
 
   type Token {
@@ -49,6 +51,8 @@ module.exports = gql`
   input CreateActionInput {
     title: String
     description: String
+    latitude: Float
+    longitude: Float
   }
 
   type Mutation {

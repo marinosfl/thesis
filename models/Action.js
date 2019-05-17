@@ -15,7 +15,9 @@ const ActionSchema = new mongoose.Schema({
   approved: {
     type: Boolean,
     default: false
-  }
+  },
+  latitude: Number,
+  longitude: Number
 });
 
 module.exports = mongoose.model('Action', ActionSchema);

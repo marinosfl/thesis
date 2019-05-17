@@ -1,4 +1,4 @@
-import { LOAD_ACTIONS, LOAD_ACTION } from '../actions/types';
+import { LOAD_ACTIONS, LOAD_ACTION, CREATE_ACTION } from '../actions/types';
 
 const initialState = {
   actions: [],
@@ -26,6 +26,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         currentAction: payload
+      };
+    case CREATE_ACTION:
+      const actions = state.actions;
+      actions.unshift(payload);
+
+      return {
+        ...state,
+        actions
       };
     default:
       return state;

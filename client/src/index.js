@@ -10,6 +10,8 @@ import { ApolloClient } from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
