@@ -1,12 +1,14 @@
 .actions__current {
-  text-align: center;
   margin-top: 2rem;
 
   &--title {
+    text-align: center;
     font-size: var(--font-heading-medium);
     margin-bottom: 2rem;
   }
   &--description {
+    text-align: center;
     font-size: var(--font-text-big);
+    margin-bottom: 2rem;
   }
 }

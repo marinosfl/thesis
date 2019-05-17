@@ -33,8 +33,9 @@ const Map = ({ latitude, longitude, handleClick }) => {
   };
 
   return (
-    <div className="container">
+    <div className="map">
       <ReactMapGL
+        style={{ margin: '0 auto' }}
         mapboxApiAccessToken="pk.eyJ1IjoibWFyaW5vcyIsImEiOiJjanVncXJmcngwNjdpNGRxbWFvenM3NG9uIn0.gtptB1exk301pMCgpMvzAQ"
         height="40rem"
         width="40rem"

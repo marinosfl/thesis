@@ -43,6 +43,12 @@ export const LOAD_ACTIONS_QUERY = `
     title,
     description
     approved,
+    latitude,
+    longitude,
+    author {
+      _id,
+      firstName
+    }
   }
 }
 `;
@@ -56,6 +62,12 @@ export const LOAD_ACTION_QUERY = `
       title,
       description
       approved,
+      latitude,
+      longitude,
+      author {
+        _id,
+        firstName
+      }
     }
   }
 

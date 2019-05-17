@@ -42,13 +42,13 @@ export const createAction = data => async dispatch => {
   const client = useClient();
   // const {title, description, latitude, longitude} = data;
   try {
-    const newAction = await client.request(CREATE_ACTION_MUTATION, {
+    const { createAction } = await client.request(CREATE_ACTION_MUTATION, {
       ...data
     });
 
     dispatch({
       type: CREATE_ACTION,
-      payload: newAction
+      payload: createAction
     });
   } catch (err) {
     console.log(err);

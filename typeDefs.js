@@ -19,8 +19,8 @@ module.exports = gql`
     description: String
     author: User
     approved: Boolean
-    latitude: String
-    longitude: String
+    latitude: Float
+    longitude: Float
   }
 
   type Token {
