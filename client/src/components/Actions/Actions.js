@@ -46,8 +46,8 @@ const Actions = ({
 };
 
 Actions.propTypes = {
-  actions: PropTypes.array.isRequired,
-  currentAction: PropTypes.object.isRequired,
+  actions: PropTypes.array,
+  currentAction: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   loadActions: PropTypes.func.isRequired,
   loadAction: PropTypes.func.isRequired

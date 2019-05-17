@@ -12,7 +12,9 @@ export default function(state = initialState, action) {
   switch (type) {
     case LOAD_ACTIONS:
       // if current action is null load the latest action
-      const currentAction = currentAction ? currentAction : payload[0];
+      const currentAction = state.currentAction
+        ? state.currentAction
+        : payload[0];
 
       return {
         ...state,
