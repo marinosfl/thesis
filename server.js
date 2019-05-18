@@ -22,7 +22,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    // console.log({ req });
     return isAuth(req);
   }
 });

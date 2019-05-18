@@ -22,7 +22,7 @@ module.exports = async req => {
       '-password'
     );
   } catch (err) {
-    console.error(`Unable to authenticate user`);
+    throw new Error('Unable to authenticate user');
   }
 
   return { currentUser };

@@ -120,7 +120,6 @@ module.exports = {
         author: ctx.currentUser._id
       }).save();
       const actionAdded = await User.populate(newAction, 'author');
-      console.log(actionAdded);
       return actionAdded;
     })
   }
