@@ -21,6 +21,10 @@ module.exports = gql`
     approved: Boolean
     latitude: Float
     longitude: Float
+    start_date: String
+    end_date: String
+    status: String
+    votes: Int
   }
 
   type Token {
@@ -31,7 +35,7 @@ module.exports = gql`
     user(_id: ID!): User
     users: [User!]
     action(_id: ID!): Action
-    actions: [Action!]
+    actions(authorId: ID): [Action!]
     login(email: String!, password: String!): Token
     me: User
     meActions(authorId: ID!): [Action!]

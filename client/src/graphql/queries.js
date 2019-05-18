@@ -36,18 +36,24 @@ query meActions($authorId: ID!){
 `;
 
 export const LOAD_ACTIONS_QUERY = `
-{
-  actions {
-    _id,
-    date,
-    title,
-    description
-    approved,
-    latitude,
-    longitude,
-    author {
+query actions($authorId: ID){
+  actions(authorId: $authorId) {
+   
       _id,
-      firstName
+      date,
+      title,
+      description
+      approved,
+      latitude,
+      longitude,
+      start_date,
+      end_date,
+      votes,
+      status,
+      author {
+        _id,
+        firstName
+     
     }
   }
 }
@@ -64,6 +70,10 @@ export const LOAD_ACTION_QUERY = `
       approved,
       latitude,
       longitude,
+      start_date,
+      end_date,
+      votes,
+      status,
       author {
         _id,
         firstName

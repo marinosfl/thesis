@@ -38,7 +38,9 @@ module.exports = {
       return action;
     },
     actions: async (root, args, ctx) => {
-      const actions = await Action.find({});
+      const author = args.authorId ? args.authorId : { $exists: true };
+
+      const actions = await Action.find({ author });
       return actions;
     },
     login: async (root, { email, password }, ctx) => {

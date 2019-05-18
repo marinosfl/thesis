@@ -18,9 +18,7 @@ module.exports = async req => {
       return currentUser;
     }
 
-    currentUser = await User.findOne({ _id: decodedToken.userId }).select(
-      '-password'
-    );
+    currentUser = await User.findById(decodedToken.userId).select('-password');
   } catch (err) {
     throw new Error('Unable to authenticate user');
   }

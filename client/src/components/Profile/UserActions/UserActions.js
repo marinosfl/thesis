@@ -1,29 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { useClient } from '../../../client';
-import { ME_ACTIONS_QUERY } from '../../../graphql/queries';
+import { loadActions } from '../../../actions/actions';
 
 import Action from '../../Action/Action';
 
-export default function UserActions({ userId }) {
-  const client = useClient();
-  const [actions, setActions] = useState([]);
-
+const UserActions = ({ userId, actions, loadActions }) => {
   useEffect(() => {
-    // fetching actions of current user
-    fetchActions();
+    loadActions(userId);
   }, []);
-
-  const fetchActions = async () => {
-    try {
-      const { meActions } = await client.request(ME_ACTIONS_QUERY, {
-        authorId: userId
-      });
-      if (meActions) setActions(meActions);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div>
@@ -33,4 +19,18 @@ export default function UserActions({ userId }) {
       actions
     </div>
   );
-}
+};
+
+UserActions.propTypes = {
+  loadActions: PropTypes.func.isRequired,
+  actions: PropTypes.array
+};
+
+const mapStateToProps = state => ({
+  actions: state.actions.actions
+});
+
+export default connect(
+  mapStateToProps,
+  { loadActions }
+)(UserActions);

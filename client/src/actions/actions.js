@@ -6,11 +6,11 @@ import { CREATE_ACTION_MUTATION } from '../graphql/mutations';
 import { BASE_URL, useClient } from '../client';
 
 // Load all actions
-export const loadActions = () => async dispatch => {
+export const loadActions = authorId => async dispatch => {
   const client = new GraphQLClient(BASE_URL, {});
 
   try {
-    const { actions } = await client.request(LOAD_ACTIONS_QUERY);
+    const { actions } = await client.request(LOAD_ACTIONS_QUERY, { authorId });
     dispatch({
       type: LOAD_ACTIONS,
       payload: actions
